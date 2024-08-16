@@ -7,7 +7,7 @@ provider "aws" {
 
 # Create an S3 bucket
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-sample-bucket-playgound1"  # Replace with your unique bucket name
+  bucket = "my-sample-bucket-playgound"  # Replace with your unique bucket name
   acl    = "private"  # Set the access control list (e.g., private, public-read)
 
   # Enable versioning
