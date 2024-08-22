@@ -3,17 +3,18 @@ provider "aws" {
   region = "us-west-2"  # Specify the AWS region
 }
 
-# Reference the existing S3 bucket
-resource "aws_s3_bucket" "existing_bucket" {
+# Define the lifecycle policy for the existing S3 bucket
+resource "aws_s3_bucket_lifecycle_configuration" "existing_bucket_lifecycle" {
   bucket = "dev-sireesha-working"  # Replace with your existing bucket name
 
-  # Define lifecycle rules
-  lifecycle_rule {
+  rule {
     id      = "transition-to-standard-ia"  # Identifier for the rule
     enabled = true
 
     # Apply the rule to all objects in the bucket
-    prefix = "input_source/"  # Leave empty to apply to all objects
+    filter {
+      prefix = "input_source/"  # Leave empty to apply to all objects
+    }
 
     # Transition objects to Standard-IA after 30 days
     transition {
@@ -31,5 +32,5 @@ resource "aws_s3_bucket" "existing_bucket" {
 
 # Optional: Output the bucket name
 output "bucket_name" {
-  value = aws_s3_bucket.existing_bucket.bucket
+  value = aws_s3_bucket_lifecycle_configuration.existing_bucket_lifecycle.bucket
 }
