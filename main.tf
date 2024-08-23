@@ -11,15 +11,16 @@ resource "aws_s3_bucket_lifecycle_configuration" "example" {
   bucket = "my-sample-bucket-playgound3"
 
   rule {
-    id     = "log"
+    id     = "intelligent-tiering"
     status = "Enabled"
 
     filter {
-      prefix = "logs/"
+      prefix = "your-prefix/"  # Optional: Specify a prefix if you want to limit this rule to certain objects
     }
 
-    expiration {
-      days = 30
+    transition {
+      days          = 1  # Number of days after object creation when it should transition to Intelligent-Tiering
+      storage_class = "INTELLIGENT_TIERING"
     }
   }
 }
