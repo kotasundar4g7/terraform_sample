@@ -1,36 +1,24 @@
-# Define the AWS provider with the required region
 provider "aws" {
-  region = "us-east-1"  # Replace with your desired AWS region
+  region = "ap-south-1"  # Replace with your region
 }
 
-resource "aws_s3_bucket" "my_bucket" {
+resource "aws_s3_bucket" "example" {
   bucket = "my-sample-bucket-playgound3"
 }
 
-resource "aws_s3_bucket_acl" "my_bucket_acl" {
-  bucket = aws_s3_bucket.my_bucket.bucket
-  acl    = "private"
-}
-
 resource "aws_s3_bucket_lifecycle_configuration" "example" {
-  bucket = aws_s3_bucket.my_bucket.bucket
+  bucket = aws_s3_bucket.example.bucket
 
   rule {
-    id     = "Transition to Intelligent-Tiering"
+    id     = "log"
     status = "Enabled"
 
-    transition {
-      days          = 30
-      storage_class = "INTELLIGENT_TIERING"
-    }
-
-    noncurrent_version_transition {
-      noncurrent_days = 30
-      storage_class   = "INTELLIGENT_TIERING"
+    filter {
+      prefix = "logs/"
     }
 
     expiration {
-      expired_object_delete_marker = true
+      days = 30
     }
   }
 }
