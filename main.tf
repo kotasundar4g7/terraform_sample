@@ -1,14 +1,17 @@
-
-
-# Reference the existing S3 bucket
-resource "aws_s3_bucket" "my_bucket" {
-  bucket = "my-sample-bucket-playgound3"
-  acl    = "private"
-
-  # You can add additional bucket configurations here if needed
+# Define the AWS provider with the required region
+provider "aws" {
+  region = "us-east-1"  # Replace with your desired AWS region
 }
 
-# Add lifecycle configuration for Intelligent-Tiering
+resource "aws_s3_bucket" "my_bucket" {
+  bucket = "my-sample-bucket-playgound3"
+}
+
+resource "aws_s3_bucket_acl" "my_bucket_acl" {
+  bucket = aws_s3_bucket.my_bucket.bucket
+  acl    = "private"
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "example" {
   bucket = aws_s3_bucket.my_bucket.bucket
 
