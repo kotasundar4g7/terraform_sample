@@ -23,7 +23,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "example" {
       storage_class = "GLACIER_IR"
     }
     transition {
-      days          = 91  # Number of days after object creation when it should transition to Glacier instant retrieval
+      days          = 120  # Number of days after object creation when it should transition to Glacier instant retrieval
       storage_class = "DEEP_ARCHIVE"
     }
   }
